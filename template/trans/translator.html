@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block con %}
+<div class="container" style="width: 100%;">
+    <div><b>TRANSLATOR</b></div>
+
+    <form method='post'>
+        {% csrf_token %}
+        <div class='row'>
+            <div class='col-lg-5'>
+                <textarea class="form-control" style='height:400px; font-size: 25px; font-weight: bold;' placeholder="Before" name='intext'>{% if tx %}{{tx}}{% endif %}</textarea>
+            </div>
+
+            {% for i,j in d.items %}
+            {{ i }} {{ j }}
+            {% endfor %}
+
+        
+            <div class='col-lg-2'>
+                <select class="form-select" multiple aria-label="multiple select example" name='bl'>
+                    {% for code, name in ndict.items %}
+                        <option value="{{ code }}" {% if bl %}{% if bl == code %} selected {% endif %}{% else %}{% if code == 'ko' %}selected{% endif %}{% endif %}>{{ name }}</option>
+                    {% endfor %}
+                    <!-- <option disabled>FROM</option>
+                    <option value="en"{% if bl == "en" %}selected{% endif %}>English</option>
+                    <option value="ko"{% if bl == "ko" %}selected{% endif %}>Korean</option>
+                    <option value="zh-cn"{% if bl == 'zh-cn' %}selected{% endif %}>Chinese</option>
+                    <option value="ja"{% if bl == 'ja' %}selected{% endif %}>Japanese</option> -->
+                </select>
+                <button type ='submit' class="btn btn-dark mt-3">Translate</button>
+                <select class="form-select mt-3" multiple aria-label="multiple select example" name='al'>
+                    {% for code, name in ndict.items %}
+                        <option value="{{ code }}" {% if al %}{% if al == code %} selected {% endif %}{% else %}{% if code == 'en' %}selected{% endif %}{% endif %}>{{ name }}</option>
+                    {% endfor %}
+
+                    <!-- <option disabled>TO</option>
+                    <option value="en"{% if al == 'en' %}selected{% endif %}>English</option>
+                    <option value="ko"{% if al == 'ko' %}selected{% endif %}>Korean</option>
+                    <option value="zh-cn"{% if al == 'zh-cn' %}selected{% endif %}>Chinese</option>
+                    <option value="ja"{% if al == 'ja' %}selected{% endif %}>Japanese</option> -->
+                </select>
+            </div>
+            <div class='col-lg-5'>
+                <textarea class="form-control" style='height:400px; font-size: 25px; font-weight: bold;' placeholder="After" disabled>{{rs}}</textarea>
+            </div>            
+        </div>
+    </form>
+
+
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block con %}
+
+    <div class='container mt-5' style='width: 80%;'>
+        <form method = 'post'>
+            {% csrf_token %}
+            <div class="text-end">
+                <input type="checkbox" class="btn-check" id="btncheck1" autocomplete="off" name='impo'>
+                <label class="btn btn-outline-danger" for="btncheck1">✨</label>
+            </div>
+            <div>
+                <label class='form-label'>site name</label>
+                <input class='form-control' placeholder="Type site name" name='sn'>
+            </div>
+            <div>
+                <label class="form-label">site url</label>
+                <input class='form-control' placeholder="Type site url" name='su'>
+            </div>
+            <div>
+                <label class="form-label">content</label>
+                <textarea class='form-control' type='text' placeholder="Type site content" name='con'></textarea>
+            </div>
+            <div class='text-end'>
+                <button class='btn btn-outline-dark'>Create Book</button>
+            </div>
+        </form>
+    </div>
+{% endblock %}

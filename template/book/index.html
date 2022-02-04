@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block con %}
+    <div class='container mt-5 mb-5' style='width: 80%;'>
+        <h1><b>{{user}}'s BOOKMARK</b></h1>
+        <div class='mb-3 text-end'> 
+            <a href="{% url 'book:create' %}"><button class='btn btn-dark'>Create Bookmark</button></a>
+        </div>
+        <div class='row'>
+            {% if blist %}
+                {% for i in blist %}
+                <div class='col-lg-4 mt-2'>
+                    <div class="card" style="width: 18rem;">
+                        <div class='card-head text-center' style="{% if i.impo == True %}background-color:khaki;{% endif %};">
+                            {{ i.pubdate }}
+                        </div>
+                        
+                        <div class="card-body">
+                            <h5 class="card-title" style='font-weight: bold;'>{{ i.site_name }}</h5>
+                            <p class="card-text" style="height: 100px;">{{ i.content }}</p>
+                            <a href="{{ i.site_url }}" class="btn btn-primary">Go</a>
+                            <a href="{% url 'book:delete' i.id %}" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <nav aria-label="Page navigation example" class='mt-5'>
+            <ul class="pagination justify-content-center">
+
+                {% if blist.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'book:index' %}?page=1">처음</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'book:index' %}?page={{ blist.previous_page_number }}">이전</a>
+                    </li>
+                {% else %}
+                <li class="page-item">
+                    <a class="page-link" href="">처음</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="">이전</a>
+                </li>
+                {% endif %}
+
+                {% for i in blist.paginator.page_range %}
+                    {% if blist.number|add:5 >= i and blist.number|add:-5 <= i %}
+                        <li class="page-item {% if blist.number == i %}active{% endif %}"><a class="page-link" href="{% url 'book:index' %}?page={{i}}">{{i}}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if blist.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'book:index' %}?page={{ blist.next_page_number }}">다음</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="{% url 'book:index' %}?page={{ blist.paginator.num_pages }}">마지막</a>
+                    </li>
+                {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="">다음</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="">마지막</a>
+                    </li>
+            {% endif %}
+            </ul>
+        </nav>
+    
+    </div>
+
+{% endblock %}
